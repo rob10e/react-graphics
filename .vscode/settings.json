@@ -1,4 +1,5 @@
 {
   "deepscan.enable": true,
-  "typescript.navigator.active": false
+  "typescript.navigator.active": false,
+  "licenser.projectName": "React-Graphics"
 }
