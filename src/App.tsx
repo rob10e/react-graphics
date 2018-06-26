@@ -1,56 +1,38 @@
 import * as React from 'react';
 import './App.css';
-
-import logo from './logo.svg';
-
-import * as graphics from '../lib/wrapped-graphics.min';
+import Graphics from './components/Graphics';
 
 class App extends React.Component {
-  private stage: any;
-
   public render() {
-    this.draw();
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <Graphics draw={this.draw} style={{width: 350, height: 300, left: 25, top: 50}}/>
     );
   }
 
-  public componentDidMount() {
-    this.stage = graphics.default.acgraph.create('root');
-  }
-
-  private draw() {
+  private draw(stage: acgraph.vector.Stage) {
     // create a stage for the Deathly Hallows symbol
-    if (!this.stage) {
+    if (!stage) {
       return;
     }
     // draw the square
-    this.stage.rect(25, 50, 350, 300);
+    stage.rect(0, 0, 350, 300);
 
     // draw the circle
-    this.stage.circle(200, 250, 100);
+    stage.circle(200-25, 250-50, 100);
 
     // draw the triangle
-    this.stage
+    stage
       .path()
-      .moveTo(25, 350)
-      .lineTo(200, 50)
-      .lineTo(375, 350)
+      .moveTo(25-25, 350-50)
+      .lineTo(200-25, 50-50)
+      .lineTo(375-25, 350-50)
       .close();
 
     // draw the wand in the middle
-    this.stage
+    stage
       .path()
-      .moveTo(200, 50)
-      .lineTo(200, 350);
+      .moveTo(200-25, 50-50)
+      .lineTo(200-25, 350-50);
   }
 }
 
