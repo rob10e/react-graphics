@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "react-graphics/*": ["src/components/*"]
+    },
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",

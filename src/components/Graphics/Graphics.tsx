@@ -1,41 +1,59 @@
 import * as React from 'react';
 
 export interface IGraphicsProps {
+    /**
+     * Setup callback. The function passed to this prop will run after
+     * the stage is initialized and before the draw callback is called.
+     * This function will only be called once.
+     */
     setup?: (stage: acgraph.vector.Stage) => void,
+    /**
+     * Draw callback. The function passed to this prop will run every
+     * animation frame.
+     */
     draw?: (stage: acgraph.vector.Stage) => void,
-    style?: {
-      width?: number | string,
-      height?: number | string,
-      left?: number | string,
-      top?: number | string,
-      bottom?: number | string,
-      right?: number | string,
-    }
+    /**
+     * Styles passed to this prop will be applied to stage div element
+     */
+    style?: React.CSSProperties,
 }
 
-export interface IGraphicsState {
+type GraphicsState = Readonly< {
+  /**
+   * The stage upon which the drawing will be performed
+   */
   stage: acgraph.vector.Stage | null,
-}
+}>;
 
-export default class Graphics extends React.Component<IGraphicsProps, IGraphicsState> {
+/**
+ * GraphicsJs wrapper component.
+ *
+ * With this component, you will be able to draw onto the element created using
+ * all of GraphicJs's API.
+ *
+ * setup() and draw() callbacks are supplied to this component.
+ *
+ * The setup() callback allows you to supply additional setup tasks for the
+ * stage object.
+ *
+ * The draw() callback is where you preform drawing functions on the stage
+ * object.
+ */
+export default class Graphics extends React.Component<IGraphicsProps, GraphicsState> {
   public static defaultProps: Partial<IGraphicsProps> = {
     style: {
       bottom: 0,
       height: '100%',
       left: 0,
+      position: 'relative',
       right: 0,
       top: 0,
       width: '100%',
     }
   }
 
-  constructor(props: IGraphicsProps) {
-    super(props);
+  public state: GraphicsState = {stage: null};
 
-    this.state = {stage: null};
-    
-  }
-  
   public componentDidMount() {
     const { style } = this.props;
     const { width, height } = style!;
@@ -53,7 +71,7 @@ export default class Graphics extends React.Component<IGraphicsProps, IGraphicsS
     }
 
     return (
-      <div id="stage" style={{position: 'absolute', ...style }} />
+      <div id="stage" style={{...style }} />
     );
   }
 }
